@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Example of using Iframe API when you have a modal on your page</title>
+  <style>
+    /* The Modal (background) */
+    .custom-modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content/Box */
+    .custom-modal__content {
+        background-color: #fefefe;
+        margin: 2% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 71%; /* Could be more or less, depending on screen size */
+    }
+
+    /* The Close Button */
+    .custom-modal__close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .custom-modal__close:hover,
+    .custom-modal__close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h1>Example of links to products:</h1>
+    <a href="https://www.taigan.com/shops/88bysandysimonian/items/55322-diamond-rose-gold-shark-tooth-necklace" class="product-link">Product link (checkout process inside an iframe)</a>
+    <br /><br /><br />
+    <button type="button" class="product-link" data-mmm-redirection data-mmm-product-link="https://www.taigan.com/shops/88bysandysimonian/items/51385-diamond-hoop-teardrop-tahitian-pearl-earring">Product Button (Adding to cart will redirect to the website)</button>
+    <br /><br /><br />
+    <a class="product-link" href="https://www.taigan.com/shops/88bysandysimonian/items/58153-diamond-black-coral-and-branch-chain-necklace"><img src="https://d3l3dar7wzkkfv.cloudfront.net/item_photos/photos/000/177/158/main_item_88-by-sandy-simonian-on-taigan-diamond-black-coral-and-branch-chain-necklace-1469771443.jpg?1469771442" /></a>
+  </div>
+  <div id='custom-modal' class="custom-modal" style="display: none">
+    <div class="custom-modal__content">
+      <!-- an empty modal here -->
+    </div>
+  </div>
+</body>
+<script src='https://s3.amazonaws.com/production-taigan/assets/iframe.api.js'></script>
+<script>
+  /**
+   * Sample MODAL without jQuery
+   */
+
+  var modal = document.getElementById('custom-modal');
+
+  window.onclick = function(event) {
+      if (event.target == modal) {
+          modal.style.display = "none";
+      }
+  }
+
+  /**
+   * The only JS you need to write
+   */
+
+  var iFrame = new MMM.iFrameAPI('.product-link', function () {
+    modal.style.display = 'block';
+  });
+
+  iFrame.createIFrame(document.querySelector('.custom-modal__content'));
+
+  document.querySelector('.custom-modal__close').addEventListener('click', function () {
+    iFrame.shutdownIFrame();
+  });
+
+</script>
+</html>
